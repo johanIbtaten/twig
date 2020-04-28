@@ -1,0 +1,28 @@
+{% extends 'with-sidebar.twig' %}
+
+{% block head %}
+    <title>Tutoriels</title>
+{% endblock %}
+
+{% block sidebar %}
+    <h4>Dernier tutoriels</h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquam asperiores cum, debitis eos, est, in ipsam libero necessitatibus possimus praesentium quo reiciendis reprehenderit sint tempora veritatis voluptatem voluptatibus!</p>
+{% endblock %}
+
+{% block main %}
+    <h1>Les derniers tutoriels</h1>
+    <div class="row">
+        {% for tutoriel in tutoriels %}
+            <div class="col-xs-4">
+                <div class="card">
+                    <img src="https://www.grafikart.fr/uploads/tutoriels/1/thumb_{{ tutoriel.id }}.jpg" alt="" class="card-img-top" width="100%">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ 'Tutoriel : ' ~ tutoriel.name }}</h4>
+                        <p class="card-text">{{ tutoriel.content | markdown | striptags | truncate(50, true, '...') }}</p>
+                        <a href="#">Voir le tutoriel</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

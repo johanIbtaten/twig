@@ -1,0 +1,12 @@
+{
+    "name": "jibta/twig",
+    "authors": [
+        {
+            "name": "johanIbtaten",
+            "email": "48206606+johanIbtaten@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^1.42"
+    }
+}
