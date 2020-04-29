@@ -1,6 +1,11 @@
 {% extends 'layout.twig' %}
 
-{% import 'form.twig' as form %}
+{# On importe les macros sous la forme d'un objet form #}
+{% import 'form.macros.twig' as form %}
+
+{% block head %}
+    <title>Contact</title>
+{% endblock %}
 
 {% block content %}
     <h1>Me contacter</h1>
@@ -8,9 +13,13 @@
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt magni molestias pariatur quod unde! Ab ad et fugiat illum iste nam numquam perspiciatis possimus, quam rem sunt veniam voluptate voluptatibus.</p>
     <form action="?p=contact" method="post">
         <div class="row">
+            {# On appelle la macro input() depuis l'objet form, on lui passe
+            des arguments définis dans la macro. #}
             {{ form.input('name', 'Votre nom', name, {class: 'col-xs'}) }}
+            {#  {class: 'col-xs', type: 'email'} définit un tableau associatif #}
             {{ form.input('email', 'Votre email', email, {class: 'col-xs', type: 'email'}) }}
         </div>
+        {# On appelle la macro textarea() #}
         {{ form.textarea('message', 'Votre message') }}
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Envoyer</button>

@@ -1,28 +1,99 @@
+{# On étend le template with-sidebar.twig qui lui même étend
+layout.twig #}
 {% extends 'with-sidebar.twig' %}
 
+{# On injectera le contenu définit ici dans le bloc head définit 
+dans layout.twig #}
 {% block head %}
-    <title>Tutoriels</title>
+  {# On définit un tableau associatif headerVars qui 
+  contient des entrées #}
+  {% set headerVars = {
+    'title': 'Tutos',
+    'description': 'Vous êtes sur la page des Tutos'
+    } 
+  %}
+
+  {# On passe headerVars au template _header.twig qui utilisera
+  les entrées comme des variables dans son template #}
+  {% include '_header.twig' with headerVars %}    
 {% endblock %}
 
+
 {% block sidebar %}
-    <h4>Dernier tutoriels</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquam asperiores cum, debitis eos, est, in ipsam libero necessitatibus possimus praesentium quo reiciendis reprehenderit sint tempora veritatis voluptatem voluptatibus!</p>
+  {# parent() Permet de conserver et afficher le contenu du bloc sidebar
+  du parent sinon le contenu est remplacé par le contenu de l'enfant #}
+  {{ parent() }}  
+  <h4>Dernier tutoriels</h4>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquam asperiores cum, debitis eos, est, in ipsam libero necessitatibus possimus praesentium quo reiciendis reprehenderit sint tempora veritatis voluptatem voluptatibus!</p>
 {% endblock %}
 
 {% block main %}
-    <h1>Les derniers tutoriels</h1>
+    <h1>Les tutos</h1>
     <div class="row">
-        {% for tutoriel in tutoriels %}
+        {% for person in persons %}
             <div class="col-xs-4">
                 <div class="card">
-                    <img src="https://www.grafikart.fr/uploads/tutoriels/1/thumb_{{ tutoriel.id }}.jpg" alt="" class="card-img-top" width="100%">
-                    <div class="card-block">
-                        <h4 class="card-title">{{ 'Tutoriel : ' ~ tutoriel.name }}</h4>
-                        <p class="card-text">{{ tutoriel.content | markdown | striptags | truncate(50, true, '...') }}</p>
-                        <a href="#">Voir le tutoriel</a>
-                    </div>
+                  <img src="https://www.grafikart.fr/uploads/tutoriels/2/thumb_{{ person.id }}.jpg" alt="" class="card-img-top" width="100%">
+                  <div class="card-block">
+                  
+                      {# Si loop.index est paire #}
+                      {% if loop.index is even %}
+                        {# loop.index donne l'index des élements dans
+                        la boucle, il commence à 1.
+                        loop est une variable de twig accessible dans la 
+                        boucle qui permet d'accéder à d'autres variables 
+                        utiles comme loop.index par exemple
+                        #}
+                        <p>{{ loop.index }} Paire</p>
+                      {% else %}
+                        <p>{{ loop.index }} Impaire</p>
+                      {% endif %}
+
+                      {# ~ permet de concaténer 'Name :' avec person.name
+                      ensuite on applique à l'ensemble le filter upper #}
+                      <h4 class="card-title">{{ ('Name : ' ~ person.name) | upper }}</h4>
+                      
+                      {# Appelle la fonction markdownFunction() qui est définit 
+                      dans MonExtension.php #}
+                      <p class="card-text">Age : {{ markdownFunction(person.age) }}</p>
+                      
+                      {# Appelle le filter markdownFilter qui est définit 
+                      dans MonExtension.php #}
+                      <p class="card-text">Age : {{ person.age | markdownFilter }}</p>
+                      
+                      {# Appelle le filter truncate() qui provient de 
+                      l'extension Twig_Extensions_Extension_Text #}
+                      <p class="card-text">{{ person.description | truncate(60, true) }}</p>
+                      <a href="#">Voir mon tutoriel</a>
+                  </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+    Salut {{ user.name }} tu as {{ user.age }}ans et ton email est {{ email }}
+    
+    <p>
+      {# Boucle de 1 jusqu'à 10 #}
+      {% for i in 0..10 %}
+        * {{ i }} <br>
+      {% endfor %}
+    </p>
+    
+    <p>
+      {# Boucle de a jusqu'à z #}
+      {% for letter in 'a'..'z' %}
+        * {{ letter }} <br>
+      {% endfor %}
+    </p>
+
+    <p>
+      {% for letter in 'a'|upper..'z'|upper %}
+        * {{ letter }}
+      {% endfor %}
+    </p>
+
+    {# Permet de debugger et afficher dans le navigateur le contenu 
+    des variables persons et headerVars #}
+    {{ dump(persons, headerVars) }}
 {% endblock %}
+

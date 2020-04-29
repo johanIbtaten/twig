@@ -1,0 +1,3 @@
+{# Si title n'est pas définit on affiche 'Title is not defined' par défaut #}
+<title>{{ title | default('Title is not defined') }}</title>
+<meta name="description" content="{{ description | default("Description is not defined") }}" />

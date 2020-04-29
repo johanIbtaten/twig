@@ -14,6 +14,8 @@
 <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
     <a class="navbar-brand" href="#">Tutoriel</a>
     <ul class="nav navbar-nav">
+        {# Appelle la fonction activeClass() qui est définit 
+        dans MonExtension.php #}
         <li class="nav-item {{ activeClass('home') }}">
             <a href="index.php?p=home" class="nav-link">Home</a>
         </li>
@@ -24,7 +26,14 @@
 </nav>
 
 <div class="container">
+    {# On définit le bloc content dont le contenu entre les balises
+    sera soit remplacer, soit surchargé par les enfants qui le définissent
+    dans leur template #}
     {% block content %}{% endblock %}
+</div>
+
+<div class="container">
+    
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
